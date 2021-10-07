@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: #1A1D45;
+    color: #F5F7F9;
+}
+
+.batman-cover{
+    background-image: url('../images/batman-cover.png');
+    background-attachment: fixed;
+    background-size: cover;
+    height: 400px;
+}
+
+.main-navbar .main-navbar-logo{
+    width: 55px;
+    margin-right: 16px;
+}
