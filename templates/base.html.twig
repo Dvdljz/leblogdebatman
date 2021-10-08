@@ -28,7 +28,7 @@
         <div class="container-fluid">
 
             {# Logo et titre du site #}
-            <a class="navbar-brand" href="{{ path('/') }}">
+            <a class="navbar-brand" href="{{ path('main_home') }}">
                 {# TODO: dynamiser nom du site #}
                 <img src="{{ asset('images/embleme-batman.png') }}" alt="" class="img-fluid main-navbar-logo">Le Blog de Batman
             </a>
@@ -77,7 +77,7 @@
                     {% endif %}
                 </ul>
 
-                
+
                 {# Formulaire de recherche #}
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Trouver un article" aria-label="Search">
