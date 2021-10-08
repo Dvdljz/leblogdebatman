@@ -28,7 +28,7 @@
         <div class="container-fluid">
 
             {# Logo et titre du site #}
-            <a class="navbar-brand" href="{{ path('main_home') }}">
+            <a class="navbar-brand" href="{{ path('/') }}">
                 {# TODO: dynamiser nom du site #}
                 <img src="{{ asset('images/embleme-batman.png') }}" alt="" class="img-fluid main-navbar-logo">Le Blog de Batman
             </a>
@@ -50,14 +50,34 @@
 
                 {# Paquet des boutons de droite #}
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-user-plus mx-1"></i>Inscription</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-sign-in-alt mx-1"></i>Connexion</a>
-                    </li>
+
+                    {# Boutons si l'user est connecté #}
+                    {% if app.user %}
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="profil-dropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user mx-1"></i>{{ app.user.pseudonym }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="profil-dropdown">
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt mr-1"></i>Déconnexion</a>
+                            </div>
+                        </li>
+
+                    {# Boutons si l'user n'est pas connecté #}
+                    {% else %}
+
+                        <li class="nav-item">
+                            <a class="nav-link{{ route == 'app_register' ? ' active' }}" href="{{ path('app_register') }}"><i class="fas fa-user-plus mx-1"></i>Inscription</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link{{ route == 'app_login' ? ' active' }}" href="{{ path('app_login') }}"><i class="fas fa-sign-in-alt mx-1"></i>Connexion</a>
+                        </li>
+
+                    {% endif %}
                 </ul>
 
+                
                 {# Formulaire de recherche #}
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Trouver un article" aria-label="Search">
@@ -67,6 +87,22 @@
         </div>
     </nav>
 
+
+    {# Affiche des messages flash de succès (s'il y en a) #}
+    {% if app.session.flashBag.has('success') %}
+    <div class="container">
+        <div class="row">
+
+            {% for message in app.flashes('success') %}
+            <div class="alert alert-success text-center col-12-my-3 alert-dismissible fade show fw-bold" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+    {% endif %}
 
     {# Bloc pour afficher le contenu des pages #}
     {% block body %}{% endblock %}
