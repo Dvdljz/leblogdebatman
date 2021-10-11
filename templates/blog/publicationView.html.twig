@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la publication{% endblock %}
+
+
+{% block body %}
+
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-12 text-center my-5">
+            <h1>{{ article.title }}</h1>
+        </div>
+    </div>
+
+        <div class="row">
+            <div class="col-12 text-center my-5">
+                <a href="{{ path('blog_publication_list') }}">Retour à la liste des articles</a>
+            </div>
+        </div>
+
+
+    <table class="table text-white">
+        <tbody>
+
+        <tr>
+            <th>Content</th>
+            <th>{{ article.content }}</th>
+        </tr>
+
+
+                <tr>
+                    <th>PublicationDate</th>
+                    <td>{{ article.publicationDate|date('d-m-Y H:i:s')}}</td>
+
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

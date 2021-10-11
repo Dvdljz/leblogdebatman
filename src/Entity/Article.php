@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Article
 {
@@ -84,11 +85,12 @@ class Article
         return $this->publicationDate;
     }
 
-    public function setPublicationDate(\DateTimeInterface $publicationDate): self
+    /**
+     * @ORM\PrePersist
+     */
+    public function setPublicationDate()
     {
-        $this->publicationDate = $publicationDate;
-
-        return $this;
+        $this->publicationDate = new \DateTime();
     }
 
     /**

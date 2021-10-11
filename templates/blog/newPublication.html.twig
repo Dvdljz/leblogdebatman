@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle publication{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12 text-center my-5">
+                <h1>Nouvelle publication</h1>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-outline-primary col-12">{{ button_label|default('Publier') }}</button>
+                {{ form_end(form) }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+{% endblock %}
