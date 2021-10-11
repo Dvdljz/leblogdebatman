@@ -6,34 +6,51 @@
 {% block body %}
 
     <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 text-center my-5">
-            <h1>Liste des publications</h1>
+
+        <div class="row">
+            <h1 class="col-12 text-center my-5">Publications du blog de Batman</h1>
         </div>
-    </div>
+
+        <div class="row">
+
+            <div class="col-12 col-md-8 offset-md-2">
+
+                <div class="row">
+                    <p class="col-12 text-center">Nombre total d'articles: {{ articles|length }}</p>
+                </div>
 
 
-    <table class="table text-white">
-        <thead>
-        <tr>
-            <th>Title</th>
-            <th>Content</th>
-            <th>PublicationDate</th>
-            <th></th>
-        </tr>
-        </thead>
-            <tbody>
-            {% for article in articles %}
-                <tr>
-                    <td>{{ article.title }}</td>
-                    <td>{{ article.content }}</td>
-                    <td>{{ article.publicationDate|date('d-m-Y H:i:s')}}</td>
-                    <td><a href="{{ path('blog_publication_view', {'id': article.id}) }}">Voir les détails...</a></td>
+                <div class="row">
 
-                </tr>
+                    {% for article in articles %}
+                    {# Un article #}
+                    <div class="col-12">
 
-            {% endfor %}
-            </tbody>
-        </table>
+                        <div class="card my-3 bg-black">
+
+                            <div class="card-header">
+                                <a href="#" class="text-decoration-none"><i class="far fa-newspaper me-2"></i>{{ article.title }}</a>
+                            </div>
+
+                            <div class="card-body">
+
+                                <div class="mb-2">
+
+                                    {{ article.content|slice(0, 150) }}...
+
+                                    <a class="text-decoration-none" href="{{ path('blog_publication_view', {'id': article.id}) }}">Lire la suite...</a>
+                                </div>
+
+                                <footer class="blockquote-footer my-2">Publié le <strong>{{ article.publicationDate|date('d-m-Y à H:i:s')}}</strong> par <strong>{{ article.author.pseudonym }}</strong></footer>
+
+
+                            </div>
+
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
