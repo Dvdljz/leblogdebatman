@@ -39,7 +39,9 @@ class BlogController extends AbstractController
             // Création d'un flash message de type "success"
             $this->addFlash('success', 'Article créé avec succès !');
 
-            return $this->redirectToRoute('main_home');
+            return $this->redirectToRoute('blog_publication_view', [
+                'slug' => $article->getSlug(),
+            ]);
         }
 
         return $this->renderForm('blog/newPublication.html.twig', [
@@ -60,7 +62,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/publication/{id}", name="publication_view")
+     * @Route("/publication/{slug}", name="publication_view")
      */
     public function publicationView(Article $article): Response
     {

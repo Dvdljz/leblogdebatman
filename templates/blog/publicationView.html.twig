@@ -6,35 +6,34 @@
 {% block body %}
 
     <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 text-center my-5">
-            <h1>{{ article.title }}</h1>
-        </div>
-    </div>
 
         <div class="row">
-            <div class="col-12 text-center my-5">
-                <a href="{{ path('blog_publication_list') }}">Retour à la liste des articles</a>
+            <h1 class="col-12 text-center my-5">{{ article.title }}</h1>
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-12 col-md-8 offset-md-2">
+
+                <div class="card my-2 bg-black">
+
+                    <div class="card-body">
+
+                        <footer class="blockquote-footer mt-0 mb-4">Publié le <strong class="text-light">{{ article.publicationDate|date('d-m-Y à H:i:s')}}</strong> par <strong class="text-light">{{ article.author.pseudonym}}</strong></footer>
+
+                        <div class="mb-2">
+                            {{ article.content }}
+                        </div>
+
+                        <a href="{{ path('blog_publication_list') }}">Retour à la liste des articles</a>
+
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
-
-    <table class="table text-white">
-        <tbody>
-
-        <tr>
-            <th>Content</th>
-            <th>{{ article.content }}</th>
-        </tr>
-
-
-                <tr>
-                    <th>PublicationDate</th>
-                    <td>{{ article.publicationDate|date('d-m-Y H:i:s')}}</td>
-
-                </tr>
-
-            </tbody>
-        </table>
     </div>
 {% endblock %}
