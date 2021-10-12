@@ -23,7 +23,7 @@
                         <footer class="blockquote-footer mt-0 mb-4">Publié le <strong class="text-light">{{ article.publicationDate|date('d-m-Y à H:i:s')}}</strong> par <strong class="text-light">{{ article.author.pseudonym}}</strong></footer>
 
                         <div class="mb-2">
-                            {{ article.content }}
+                            {{ article.content|purify }}
                         </div>
 
                         <a href="{{ path('blog_publication_list') }}">Retour à la liste des articles</a>
