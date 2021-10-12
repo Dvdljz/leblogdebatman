@@ -16,13 +16,27 @@
             <div class="col-12 col-md-8 offset-md-2">
 
                 <div class="row">
-                    <p class="col-12 text-center">Nombre total d'articles: {{ articles|length }}</p>
+                    <p class="col-12 text-center">Nombre total d'articles: {{ articles.getTotalItemCount }}</p>
                 </div>
 
+                {# S'il y a des articles on affiche le menu de pagination #}
+                {% if articles is not empty %}
+
+                <div class="row">
+                    <div class="col-12 my-3 text-center">
+                        <div class="d-inline-block">
+                            {{ knp_pagination_render(articles) }}
+                        </div>
+                    </div>
+                </div>
+
+                {% endif %}
+
+
+                {% for article in articles %}
 
                 <div class="row">
 
-                    {% for article in articles %}
                     {# Un article #}
                     <div class="col-12">
 
@@ -48,6 +62,20 @@
 
                         </div>
                         {% endfor %}
+
+                        {# S'il y a des articles on affiche le menu de pagination #}
+                        {% if articles is not empty %}
+
+                            <div class="row">
+                                <div class="col-12 my-3 text-center">
+                                    <div class="d-inline-block">
+                                        {{ knp_pagination_render(articles) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endif %}
+
                     </div>
                 </div>
             </div>
