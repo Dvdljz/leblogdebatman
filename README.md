@@ -6,7 +6,7 @@
 
     https://github.com/Dvdljz/leblogdebatman.git
 
-### Modifier les params d'environnement dans le fichier .env (changer user_db et password_db)
+### Modifier les params d'environnement dans le fichier .env (changer user_db et password_db, clés Google Recaptcha)
 
 ### Déplacer le terminal dans le dossier clôné:
 
@@ -19,6 +19,7 @@
     symfony console make:migration
     symfony console doctrine:migrations:migrate
     symfony console doctrine:fixtures:load
+    symfony console assets:install public
 
 Les fixtures créeront: 
 * Un compte admin (email: admin@a.fr, password: Aaaaaa/8)

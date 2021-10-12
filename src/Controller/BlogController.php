@@ -85,13 +85,9 @@ class BlogController extends AbstractController
     }
 
 
-
-
-
-
-
     /**
      * @Route("/publication/{slug}", name="publication_view")
+     * Page permettant de voir un article en détail
      */
     public function publicationView(Article $article): Response
     {
@@ -100,6 +96,45 @@ class BlogController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route ("/recherche/", name="search")
+     */
+    public function search(Request $request, PaginatorInterface $paginator): Response
+    {
 
+        // Récupération du numéro de la page demandée dans l'URL
+        $requestedPage = $request->query->getInt('page', 1);
+        // Vérification que le numéro est positif
+        if($requestedPage < 1){
+            throw new NotFoundHttpException();
+        }
+
+        $search = $request->query->get('search', '');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $query = $em
+            ->createQuery('SELECT a FROM App\Entity\Article a WHERE a.title LIKE :search OR a.content LIKE :search ORDER BY a.publicationDate DESC')
+            ->setParameters([
+                'search' => '%' . 'search' . '%',
+            ])
+        ;
+
+        // Récupération des articles
+        $articles = $paginator->paginate(
+            $query,
+            $requestedPage,
+            10
+        );
+
+
+        return $this->render('blog/listSearch.html.twig', [
+            'articles' => $articles,
+        ]);
+
+
+
+
+    }
 
 }

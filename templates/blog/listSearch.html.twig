@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultat de la recherche "{{ app.request.query.get('search') }}"{% endblock %}
+
+
+{% block body %}
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <h1 class="col-12 text-center my-5">Résultat de la recherche "{{ app.request.query.get('search') }}"</h1>
+        </div>
+
+        <div class="row">
+
+            <div class="col-12 col-md-8 offset-md-2">
+
+                <div class="row">
+                    <p class="col-12 text-center">Nombre total d'articles: {{ articles.getTotalItemCount }}</p>
+                </div>
+
+                {# S'il y a des articles on affiche le menu de pagination #}
+                {% if articles is not empty %}
+
+                <div class="row">
+                    <div class="col-12 my-3 text-center">
+                        <div class="d-inline-block">
+                            {{ knp_pagination_render(articles) }}
+                        </div>
+                    </div>
+                </div>
+
+                {% endif %}
+
+
+                {% for article in articles %}
+
+                <div class="row">
+
+                    {# Un article #}
+                    <div class="col-12">
+
+                        <div class="card my-3 bg-black">
+
+                            <div class="card-header">
+                                <a href="{{ path('blog_publication_view', {'slug': article.slug}) }}" class="text-decoration-none"><i class="far fa-newspaper me-2"></i>{{ article.title }}</a>
+                            </div>
+
+                            <div class="card-body">
+
+                                <div class="mb-2">
+
+                                    {{ article.content|striptags|slice(0, 150) }}...
+
+                                    <a class="text-decoration-none" href="{{ path('blog_publication_view', {'slug': article.slug}) }}">Lire la suite...</a>
+                                </div>
+
+                                <footer class="blockquote-footer my-2">Publié le <strong>{{ article.publicationDate|date('d-m-Y à H:i:s')}}</strong> par <strong>{{ article.author.pseudonym }}</strong></footer>
+
+
+                            </div>
+
+                        </div>
+                        {% endfor %}
+
+                        {# S'il y a des articles on affiche le menu de pagination #}
+                        {% if articles is not empty %}
+
+                            <div class="row">
+                                <div class="col-12 my-3 text-center">
+                                    <div class="d-inline-block">
+                                        {{ knp_pagination_render(articles) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
