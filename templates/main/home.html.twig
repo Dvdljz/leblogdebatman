@@ -7,16 +7,80 @@
     <div class="container-fluid">
 
         <div class="row">
-            <h1 class="col-12 text-center my-5">Le Blog de Batman</h1>
+            <h1 class="col-12 text-center my-5">{{ site_name }}</h1>
         </div>
 
         <div class="row">
+
             <h2 class="text-center col-12 my-4"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem cupiditate doloribus ducimus excepturi iure iusto laboriosam, maiores pariatur perspiciatis praesentium quidem tempora? Consequuntur corporis obcaecati omnis perferendis quisquam, quo vel?</h2>
+
             <p class="col-12 col-md-10 offset-md-1 text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ab architecto consectetur cumque delectus dolore doloremque dolores ea fugit harum ipsa ipsam iure minus nostrum numquam, odit officiis quae quaerat quia, reiciendis repudiandae veritatis, voluptatem? Accusantium ad adipisci alias assumenda atque aut corporis culpa deserunt eaque enim eos et eveniet facilis fugit harum illo ipsam ipsum laboriosam molestiae nemo nobis non odio officia pariatur quae quidem quis quisquam quod repellat repudiandae similique soluta tenetur ullam ut velit, vero voluptas. Aut dicta ipsa officiis sed tempore voluptatem! Eveniet ex, magni mollitia nostrum odit quae quam quo repellendus, sequi sit sunt voluptas!</p>
+
         </div>
 
         {# Affichage de l'image fixe en bandeau #}
         <div class="batman-cover row my-5"></div>
+
+        {# Affichage des derniers articles publiés #}
+        <div class="row">
+
+            <div class="col-12 col-md-8 offset-md-2">
+
+                <div class="row">
+                    <h2 class="col-12 text-center">Dernières publications</h2>
+                </div>
+
+                {% for article in articles %}
+
+                    <div class="row">
+                        {# Un article #}
+                        <div class="col-12">
+
+                            <div class="card my-3 bg-black">
+
+                                <div class="card-header">
+                                    <a class="text-decoration-none" href="{{ path('blog_publication_view', {'slug': article.slug}) }}"><i class="far fa-newspaper me-2"></i>{{ article.title }}</a>
+                                </div>
+
+                                <div class="card-body">
+
+                                    <div class="mb-2">
+                                        {{ article.content|slice(0, 150) }}...
+                                        <a class="text-decoration-none" href="{{ path('blog_publication_view', {'slug': article.slug}) }}">Lire la suite</a>
+                                    </div>
+
+                                    <footer class="blockquote-footer my-2">Publié le <strong>{{ article.publicationDate|date('d/m/Y à H\\hi') }}</strong> par <strong>{{ article.author.pseudonym }}</strong></footer>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                {% else %}
+
+                    <div class="row">
+                        <p class="col-12 text-center alert alert-warning">Aucune publication à afficher.</p>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <div class="row mb-5">
+
+            <h2 class="text-center col-12 my-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
+
+            <p class="col-12 col-md-10 offset-md-1 text-center mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit. Ab aliquid consequatur dignissimos eum obcaecati praesentium. Assumenda dolores dolorum esse
+                laboriosam, libero natus quod sapiente! Accusamus animi commodi, cumque eaque eligendi facere fugiat
+                harum libero magni maxime, minus nesciunt nihil porro provident quas qui quisquam quo rerum totam ut?
+                Alias, magnam!</p>
+
+        </div>
 
     </div>
 
