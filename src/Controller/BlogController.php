@@ -116,9 +116,10 @@ class BlogController extends AbstractController
         $query = $em
             ->createQuery('SELECT a FROM App\Entity\Article a WHERE a.title LIKE :search OR a.content LIKE :search ORDER BY a.publicationDate DESC')
             ->setParameters([
-                'search' => '%' . 'search' . '%',
+                'search' => '%' . $search . '%',
             ])
         ;
+
 
         // Récupération des articles
         $articles = $paginator->paginate(
@@ -132,8 +133,33 @@ class BlogController extends AbstractController
             'articles' => $articles,
         ]);
 
+    }
 
+    /**
+     * Page admin servant à supprimer un article via son id passé dans l'URL
+     *
+     * @Route ("/publication/supression/{id}/", name="publication_delete")
+     * @Security ("is_granted('ROLE_ADMIN')")
+     */
+    public function publicationDelete(Request $request, Article $article): Response
+    {
 
+        if(!$this->isCsrfTokenValid('blog_publication_delete_' . $article->getId(), $request->query->get('csrf_token'))){
+
+            $this->addFlash('error', 'Token de sécurité invalide, veuillez ré-essayer.');
+        } else {
+
+            // Manager général
+            $em = $this->getDoctrine()->getManager();
+
+            // Suppression de l'article
+            $em->remove($article);
+            $em->flush();
+
+            // Message flash de succès + redirection sur la liste des articles
+            $this->addFlash('success', 'La publication a été supprimée avec succès !');
+        }
+        return $this->redirectToRoute('blog_publication_list');
 
     }
 
