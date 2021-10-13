@@ -21,14 +21,14 @@
 
                         {# Image de profil #}
                         <div class="row">
-                            <div class="col-12 profil-photo d-flex justify-content-center align-items-center">
+                            <div class="col-10 offset-1 d-flex justify-content-center align-items-center">
 
                                 {# Affichage de la photo de profil de l'user ou celle par défaut s'il n'en a pas #}
                                 {% if app.user.photo is null %}
                                     <img src="{{ asset('images/profil_default.jpg') }}" alt="" class="img-fluid img-thumbnail">
 
                                 {% else %}
-                                    <img src="{{ asset('images/profils/' ~ app.user.photo) }}" alt="" class="img-fluid img-thumbnail">
+                                    <img src="{{ asset('images/profils/' ~ app.user.photo)|imagine_filter('profil') }}" alt="" class="img-fluid img-thumbnail">
 
                                 {% endif %}
 
