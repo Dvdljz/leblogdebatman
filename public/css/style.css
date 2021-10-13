@@ -35,3 +35,9 @@ body{
 .pagination .page-item a.page-link:hover{
     background-color: #292929;
 }
+
+/* Photo de profil */
+.profil-photo{
+    width: 200px;
+    height: 200px;
+}
