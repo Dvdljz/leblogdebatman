@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Form\ArticleType;
+use App\Form\CommentFormType;
 use App\Repository\ArticleRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -89,12 +91,57 @@ class BlogController extends AbstractController
      * @Route("/publication/{slug}", name="publication_view")
      * Page permettant de voir un article en détail
      */
-    public function publicationView(Article $article): Response
+    public function publicationView(Article $article, Request $request): Response
     {
+
+        // Si l'user n'est pas connecté, on appelle la vue directement
+        if (!$this->getUser()){
+
+            return $this->render('blog/publicationView.html.twig', [
+                'article' => $article,
+            ]);
+        }
+
+        $comment = new Comment();
+
+        $form = $this->createForm(CommentFormType::class, $comment);
+
+        $form->handleRequest($request);
+
+        // Vérifs formulaire
+        if ($form->isSubmitted() && $form->isValid()){
+
+        $comment
+            ->setPublicationDate(new \DateTime())
+            ->setArticle($article)
+            ->setAuthor($this->getUser())
+        ;
+
+        // Sauvegarde en BDD
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+            $this->addFlash('success', 'Votre commentaire a été publié avec succès !');
+
+            // Remise à zéro du formulaire (si jms il y en a un autre)
+            unset($comment);
+            unset($form);
+            $comment = new Comment();
+            $form = $this->createForm(CommentFormType::class, $comment);
+
+
+        }
+
+
         return $this->render('blog/publicationView.html.twig', [
             'article' => $article,
+            'form' => $form->createView(),
         ]);
+
     }
+
+
 
     /**
      * @Route ("/recherche/", name="search")
