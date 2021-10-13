@@ -163,4 +163,40 @@ class BlogController extends AbstractController
 
     }
 
+
+    /**
+     * Page permettant aux admins de modifier un article
+     * @Route ("/publication/modifier/{id}/", name="publication_edit")
+     * @Security ("is_granted('ROLE_ADMIN')")
+     */
+    public function publicationEdit(Article $article, Request $request): Response
+    {
+
+        $form = $this->createForm(ArticleType::class, $article);
+
+        $form->handleRequest($request);
+
+        // Si formulaire ok
+        if ($form->isSubmitted() && $form->isValid()){
+
+            // Mise à jour dans la BDD
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $this->addFlash('success', 'Publication modifiée avec succès !');
+
+            return $this->redirectToRoute('blog_publication_view', [
+                'slug' => $article->getSlug(),
+            ]);
+
+        }
+
+        return $this->render('blog/publicationEdit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+
+    }
+
+
+
 }

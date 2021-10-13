@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification d'une publication{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <h1 class="col-12 text-center my-5">Modification d'une publication</h1>
+        </div>
+
+        <div class="row">
+            <p class="text-center col-12">
+                <a href="{{ path('blog_publication_view', {'slug': form.vars.value.slug}) }}" class="text-decoration-none">Revenir sur l'article</a>
+            </p>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-8 offset-md-2">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-outline-primary col-12">{{ button_label|default('Publier') }}</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
