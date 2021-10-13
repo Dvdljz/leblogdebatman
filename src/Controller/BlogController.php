@@ -142,7 +142,6 @@ class BlogController extends AbstractController
     }
 
 
-
     /**
      * @Route ("/recherche/", name="search")
      */
@@ -235,7 +234,6 @@ class BlogController extends AbstractController
             return $this->redirectToRoute('blog_publication_view', [
                 'slug' => $article->getSlug(),
             ]);
-
         }
 
         return $this->render('blog/publicationEdit.html.twig', [
@@ -244,6 +242,35 @@ class BlogController extends AbstractController
 
     }
 
+
+    /**
+     * Page permettant la suppression d'un commenatire par un admin
+     * @Route ("/commentaire/suppression/{id}/", name="comment_delete")
+     * @Security ("is_granted('ROLE_ADMIN')")
+     */
+    public function commentDelete(Comment $comment, Request $request): Response
+    {
+
+        // Si le token CSRF passé dans l'URL n'est pas valide
+        if (!$this->isCsrfTokenValid('blog_comment_delete' . $comment->getId(), $request->query->get('csrf_token'))){
+            $this->addFlash('error', 'Token sécurité invalide, veuillez réessayer.');
+        } else {
+
+            // Suppression du commentaire en BDD
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($comment);
+            $em->flush();
+
+            $this->addFlash('success', 'Le commentaire a été supprimé avec succès !');
+
+        }
+
+        // Redirection sur la page de l'article auquel était rattaché le commentaire
+        return $this->redirectToRoute('blog_publication_view', [
+            'slug' => $comment->getArticle()->getSlug(),
+            ]);
+
+    }
 
 
 }
